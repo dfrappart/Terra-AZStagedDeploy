@@ -54,14 +54,7 @@ variable "EnvironmentUsageTag" {
 }
 
 
-/*
-variable "STOANameConcat" {
 
-    value = "${concat(var.RGName,var.StorageAccountName,var.StorageAccountLocation,var.StorageAccountTier,var.StorageReplicationType)}"
-}
-
-
-*/
 #Storage account creation
 
 

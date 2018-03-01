@@ -27,7 +27,7 @@ variable "EnvironmentUsageTag" {
 
 # Variable to define the Resource Group Name
 
-variable "RGName" {
+variable "SourceRGName" {
 
     type    = "string"
     default = "RG-StagedDeploy"
@@ -36,32 +36,20 @@ variable "RGName" {
 #Variable defining the vnet ip range
 
 
-variable "vNetIPRange" {
+variable "SourcevNetName" {
 
-    type = "list"
-    default = ["10.0.0.0/20"]
-}
-
-variable "SubnetAddressRange" {
-#Note: Subnet must be in range included in the vNET Range
-    
-    default = {
-      "0" = "10.0.0.0/24"
-      "1" = "10.0.1.0/24"
-      "2" = "10.0.2.0/24"
-     
-    }
+    type = "string"
+    default = "StagedDeploy_VNet"
 }
 
 
-variable "SubnetName" {
-    
-    default = {
-      "0" = "FE_Subnet"
-      "1" = "BE_Subnet"
-      "2" = "Bastion_Subnet"
 
-    }
+
+variable "SourceSubnetNameList" {
+    
+    default = ["FE_Subnet","BE_Subnet","Bastion_Subnet"]
+
+
 }
 
 #variable defining VM size

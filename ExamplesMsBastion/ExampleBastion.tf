@@ -53,7 +53,7 @@ data "azurerm_storage_account" "SourceSTOADiagLog" {
 # Azure Resources creation
 ######################################################################
 
-# Creating the ResourceGroup
+# Creating the RG_ExampleBastion
 
 
 module "RG_ExampleBastion" {
@@ -225,7 +225,7 @@ module "FilesExchangeStorageAccount" {
 
     #Module variable
     StorageAccountName                  = "filestorageBastion"
-    RGName                              = "${module.ResourceGroup.Name}"
+    RGName                              = "${module.RG_ExampleBastion.Name}"
     StorageAccountLocation              = "${var.AzureRegion}"
     StorageAccountTier                  = "${lookup(var.storageaccounttier, 0)}"
     StorageReplicationType              = "${lookup(var.storagereplicationtype, 0)}"
@@ -245,7 +245,7 @@ module "InfraFileShare" {
     
     #Module variable
     ShareName           = "infrafileshare"
-    RGName              = "${module.ResourceGroup.Name}"
+    RGName              = "${module.RG_ExampleBastion.Name}"
     StorageAccountName  = "${module.FilesExchangeStorageAccount.Name}"
     Quota               = "0"
 
