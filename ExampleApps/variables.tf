@@ -42,6 +42,12 @@ variable "SourcevNetName" {
     default = "StagedDeploy_VNet"
 }
 
+variable "NewRGName" {
+
+    type = "string"
+    default = "RG-ExampleBastion"
+}
+
 
 
 

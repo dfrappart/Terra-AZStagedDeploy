@@ -62,7 +62,7 @@ module "RG_ExampleBastion" {
     source = "github.com/dfrappart/Terra-AZBasiclinuxWithModules//Modules//01 ResourceGroup/"
     
     #Module variable
-    RGName                  = "RG-ExampleBastion"
+    RGName                  = "${var.NewRGName}"
     RGLocation              = "${var.AzureRegion}"
     EnvironmentTag          = "${var.EnvironmentTag}"
     EnvironmentUsageTag     = "${var.EnvironmentUsageTag}"
