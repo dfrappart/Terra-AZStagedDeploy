@@ -5,7 +5,7 @@
 
 
 
-data "azurerm_resource_group" "SourceRG" {
+data "azurerm_resource_group" "SourceRGName" {
 
     name = "${var.SourceRGName}"
 
@@ -17,29 +17,29 @@ data "azurerm_virtual_network" "SourceVNetName" {
     #name                    = "${var.EnvironmentTag}_VNet"
     #OR since we know the name of the deployed VNet, we could just add it in the variable file
     name                    = "${var.SourcevNetName}"
-    resource_group_name     = "${data.azurerm_resource_group.SourceRG.name}"
+    resource_group_name     = "${data.azurerm_resource_group.SourceRGName.name}"
 }
 
 data "azurerm_subnet" "FE_Subnet" {
 
     #Again, it is possible to quite elegantly use a vnet data source and the output list of the associated subnet
-    #name                    = "${element(data.azurerm_virtual_network.SourceVNet.subnets,1)}"
+    #name                    = "${element(data.azurerm_virtual_network.SourcevNetName.subnets,1)}"
     #Or, again, since we do know the name of the subnet, just use the name from a list in the variable file
     name                    = "${element(var.SourceSubnetNameList,0)}"    
-    virtual_network_name    = "${data.azurerm_virtual_network.SourceVNet.name}"
-    resource_group_name     = "${data.azurerm_resource_group.SourceRG.name}"
+    virtual_network_name    = "${data.azurerm_virtual_network.SourceVNetName.name}"
+    resource_group_name     = "${data.azurerm_resource_group.SourceRGName.name}"
 }
 
 data "azurerm_subnet" "BE_Subnet" {
 
     name                    = "${element(var.SourceSubnetNameList,1)}"
-    virtual_network_name    = "${data.azurerm_virtual_network.SourceVNet.name}"
-    resource_group_name     = "${data.azurerm_resource_group.SourceRG.name}"
+    virtual_network_name    = "${data.azurerm_virtual_network.SourceVNetName.name}"
+    resource_group_name     = "${data.azurerm_resource_group.SourceRGName.name}"
 }
 
 data "azurerm_storage_account" "SourceSTOADiagLog" {
   name                 = "stoadiaglogstandardlrs"
-  resource_group_name  = "${data.azurerm_resource_group.SourceRG.name}"
+  resource_group_name  = "${data.azurerm_resource_group.SourceRGName.name}"
 }
 
 ######################################################################
@@ -76,7 +76,7 @@ module "AS_ExampleFE" {
 
     #Module variables
     ASName                  = "AS_ExampleFE"
-    RGName                  = "${module.RG_ExampleBastion.Name}"
+    RGName                  = "${module.RG_ExampleApps.Name}"
     ASLocation              = "${var.AzureRegion}"
     EnvironmentTag          = "${var.EnvironmentTag}"
     EnvironmentUsageTag     = "${var.EnvironmentUsageTag}"
@@ -217,7 +217,7 @@ module "FilesExchangeStorageAccount" {
 
     #Module variable
     StorageAccountName                  = "filestorageApps"
-    RGName                              = "${module.RG_ExampleBastion.Name}"
+    RGName                              = "${module.RG_ExampleApps.Name}"
     StorageAccountLocation              = "${var.AzureRegion}"
     StorageAccountTier                  = "${lookup(var.storageaccounttier, 0)}"
     StorageReplicationType              = "${lookup(var.storagereplicationtype, 0)}"
@@ -237,7 +237,7 @@ module "AppsFileShare" {
     
     #Module variable
     ShareName           = "appsfileshare"
-    RGName              = "${module.RG_ExampleBastion.Name}"
+    RGName              = "${module.RG_ExampleApps.Name}"
     StorageAccountName  = "${module.FilesExchangeStorageAccount.Name}"
     Quota               = "0"
 
@@ -304,7 +304,7 @@ module "NICs_ExampleBE" {
 
     #Module variables
 
-    NICCount            = "2"
+    NICcount            = "2"
     NICName             = "NIC_ExampleBE"
     NICLocation         = "${var.AzureRegion}"
     RGName              = "${module.RG_ExampleApps.Name}"
