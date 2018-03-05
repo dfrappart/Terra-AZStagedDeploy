@@ -3,6 +3,25 @@
 # BE Subnet
 ######################################################
 
+######################################################################
+# Access to Azure
+######################################################################
+
+
+# Configure the Microsoft Azure Provider with Azure provider variable defined in AzureDFProvider.tf
+
+provider "azurerm" {
+
+    subscription_id = "${var.AzureSubscriptionID}"
+    client_id       = "${var.AzureClientID}"
+    client_secret   = "${var.AzureClientSecret}"
+    tenant_id       = "${var.AzureTenantID}"
+}
+
+
+######################################################################
+# Source data used in the template
+######################################################################
 
 
 data "azurerm_resource_group" "SourceRGName" {
@@ -216,7 +235,7 @@ module "FilesExchangeStorageAccount" {
     source = "github.com/dfrappart/Terra-AZBasiclinuxWithModules//Modules//03 StorageAccountGP/"
 
     #Module variable
-    StorageAccountName                  = "filestorageApps"
+    StorageAccountName                  = "Apps"
     RGName                              = "${module.RG_ExampleApps.Name}"
     StorageAccountLocation              = "${var.AzureRegion}"
     StorageAccountTier                  = "${lookup(var.storageaccounttier, 0)}"

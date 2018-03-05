@@ -21,12 +21,12 @@ output "RG_ExampleBastiontId" {
 
 output "RGVNetName" {
 
-    value = "${data.azurerm_resource_group.SourceRG.name}"
+    value = "${data.azurerm_resource_group.SourceRGName.name}"
 }
 
 output "RGVNetId" {
 
-    value = "${data.azurerm_resource_group.SourceRG.id}"
+    value = "${data.azurerm_resource_group.SourceRGName.id}"
 }
 
 ######################################################
@@ -34,27 +34,27 @@ output "RGVNetId" {
 
 output "VNetName" {
 
-    value = "${data.azurerm_virtual_network.SourceVNet.name}"
+    value = "${data.azurerm_virtual_network.SourceVNetName.name}"
 }
 
 output "VNetId" {
 
-    value = "${data.azurerm_virtual_network.SourceVNet.id}"
+    value = "${data.azurerm_virtual_network.SourceVNetName.id}"
 }
 
 output "VNetSubnets" {
 
-    value = "${data.azurerm_virtual_network.SourceVNet.subnets}"
+    value = "${data.azurerm_virtual_network.SourceVNetName.subnets}"
 }
 
 output "VNetSubnet1" {
 
-    value = "${element(data.azurerm_virtual_network.SourceVNet.subnets,0)}"
+    value = "${element(data.azurerm_virtual_network.SourceVNetName.subnets,0)}"
 }
 
 output "VNetSubnet2" {
 
-    value = "${element(data.azurerm_virtual_network.SourceVNet.subnets,1)}"
+    value = "${element(data.azurerm_virtual_network.SourceVNetName.subnets,1)}"
 }
 
 output "SubnetBastionId" {

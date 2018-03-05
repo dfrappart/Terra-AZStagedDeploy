@@ -24,31 +24,49 @@ provider "azurerm" {
 ######################################################################
 
 
-data "azurerm_resource_group" "SourceRG" {
+data "azurerm_resource_group" "SourceRGName" {
 
-    name = "${var.RGName}"
+    name = "${var.SourceRGName}"
 
 }
 
-data "azurerm_virtual_network" "SourceVNet" {
+data "azurerm_virtual_network" "SourceVNetName" {
 
-    name                    = "${var.EnvironmentTag}_VNet"
-    resource_group_name     = "${data.azurerm_resource_group.SourceRG.name}"
+    #It is possible to retake the same input value as for the "parent" template
+    #name                    = "${var.EnvironmentTag}_VNet"
+    #OR since we know the name of the deployed VNet, we could just add it in the variable file
+    name                    = "${var.SourcevNetName}"
+    resource_group_name     = "${data.azurerm_resource_group.SourceRGName.name}"
+}
+
+data "azurerm_subnet" "FE_Subnet" {
+
+    #Again, it is possible to quite elegantly use a vnet data source and the output list of the associated subnet
+    #name                    = "${element(data.azurerm_virtual_network.SourcevNetName.subnets,1)}"
+    #Or, again, since we do know the name of the subnet, just use the name from a list in the variable file
+    name                    = "${element(var.SourceSubnetNameList,0)}"    
+    virtual_network_name    = "${data.azurerm_virtual_network.SourceVNetName.name}"
+    resource_group_name     = "${data.azurerm_resource_group.SourceRGName.name}"
+}
+
+data "azurerm_subnet" "BE_Subnet" {
+
+    name                    = "${element(var.SourceSubnetNameList,1)}"
+    virtual_network_name    = "${data.azurerm_virtual_network.SourceVNetName.name}"
+    resource_group_name     = "${data.azurerm_resource_group.SourceRGName.name}"
 }
 
 data "azurerm_subnet" "Bastion_Subnet" {
 
-    name                    = "${lookup(var.SubnetName,2)}"
-    virtual_network_name    = "${data.azurerm_virtual_network.SourceVNet.name}"
-    resource_group_name     = "${data.azurerm_resource_group.SourceRG.name}"
+    name                    = "${element(var.SourceSubnetNameList,2)}"
+    virtual_network_name    = "${data.azurerm_virtual_network.SourceVNetName.name}"
+    resource_group_name     = "${data.azurerm_resource_group.SourceRGName.name}"
 }
-
 
 data "azurerm_storage_account" "SourceSTOADiagLog" {
   name                 = "stoadiaglogstandardlrs"
-  resource_group_name  = "${data.azurerm_resource_group.SourceRG.name}"
+  resource_group_name  = "${data.azurerm_resource_group.SourceRGName.name}"
 }
-
 ######################################################################
 # Azure Resources creation
 ######################################################################
@@ -224,7 +242,7 @@ module "FilesExchangeStorageAccount" {
     source = "github.com/dfrappart/Terra-AZBasiclinuxWithModules//Modules//03 StorageAccountGP/"
 
     #Module variable
-    StorageAccountName                  = "filestorageBastion"
+    StorageAccountName                  = "Infra"
     RGName                              = "${module.RG_ExampleBastion.Name}"
     StorageAccountLocation              = "${var.AzureRegion}"
     StorageAccountTier                  = "${lookup(var.storageaccounttier, 0)}"

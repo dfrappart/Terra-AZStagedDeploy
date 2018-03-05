@@ -45,7 +45,7 @@ variable "SourcevNetName" {
 variable "NewRGName" {
 
     type = "string"
-    default = "RG-ExampleBastion"
+    default = "RG-ExampleApps"
 }
 
 
