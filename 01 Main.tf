@@ -78,8 +78,8 @@ module "SampleArchi_vNet" {
 module "DiagStorageAccount" {
 
     #Module location
-    source = "./Modules/StorageAccountGP"
-    #source = "github.com/dfrappart/Terra-AZBasiclinuxWithModules//Modules//03 StorageAccountGP/"
+    #source = "./Modules/StorageAccountGP"
+    source = "github.com/dfrappart/Terra-AZBasiclinuxWithModules//Modules//03 StorageAccountGP/"
 
     #Module variable
     StorageAccountName                  = "diaglog"
@@ -99,8 +99,8 @@ module "DiagStorageAccount" {
 module "FilesExchangeStorageAccount" {
 
     #Module location
-    source = "./Modules/StorageAccountGP"
-    #source = "github.com/dfrappart/Terra-AZBasiclinuxWithModules//Modules//03 StorageAccountGP/"
+    #source = "./Modules/StorageAccountGP"
+    source = "github.com/dfrappart/Terra-AZBasiclinuxWithModules//Modules//03 StorageAccountGP/"
 
     #Module variable
     StorageAccountName                  = "files"
