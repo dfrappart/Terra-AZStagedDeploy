@@ -67,6 +67,8 @@ data "azurerm_storage_account" "SourceSTOADiagLog" {
   name                 = "stoadiaglogstandardlrs"
   resource_group_name  = "${data.azurerm_resource_group.SourceRGName.name}"
 }
+
+
 ######################################################################
 # Azure Resources creation
 ######################################################################

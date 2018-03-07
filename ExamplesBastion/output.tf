@@ -2,6 +2,30 @@
 # This file defines which value are sent to output
 ######################################################
 
+output "InfraResourceGroupName" {
+
+    value = "${data.azurerm_resource_group.SourceRGName.name}"
+}
+
+output "InfraResourceGroupId" {
+
+    value = "${data.azurerm_resource_group.SourceRGName.id}"
+}
+
+
+output "InfraResourceGroupTags" {
+
+    value = "${data.azurerm_resource_group.SourceRGName.tags}"
+}
+
+
+output "InfraResourceGroupLocation" {
+
+    value = "${data.azurerm_resource_group.SourceRGName.location}"
+}
+
+
+
 ######################################################
 # Target Resource group info Output containing VMs
 
