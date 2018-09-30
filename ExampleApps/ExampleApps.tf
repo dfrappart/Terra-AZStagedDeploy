@@ -32,18 +32,14 @@ data "azurerm_resource_group" "SourceRGName" {
 
 data "azurerm_virtual_network" "SourceVNetName" {
 
-    #It is possible to retake the same input value as for the "parent" template
-    #name                    = "${var.EnvironmentTag}_VNet"
-    #OR since we know the name of the deployed VNet, we could just add it in the variable file
+    
     name                    = "${var.SourcevNetName}"
     resource_group_name     = "${data.azurerm_resource_group.SourceRGName.name}"
 }
 
 data "azurerm_subnet" "FE_Subnet" {
 
-    #Again, it is possible to quite elegantly use a vnet data source and the output list of the associated subnet
-    #name                    = "${element(data.azurerm_virtual_network.SourcevNetName.subnets,1)}"
-    #Or, again, since we do know the name of the subnet, just use the name from a list in the variable file
+    
     name                    = "${element(var.SourceSubnetNameList,0)}"    
     virtual_network_name    = "${data.azurerm_virtual_network.SourceVNetName.name}"
     resource_group_name     = "${data.azurerm_resource_group.SourceRGName.name}"
